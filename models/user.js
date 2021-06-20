@@ -14,10 +14,40 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   User.init({
-    username: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    username: {
+      type : DataTypes.STRING,
+      validate : {
+        notEmpty : {
+          msg : 'Username is required'
+        }
+      }
+    },
+    email: {
+      type : DataTypes.STRING,
+      validate : {
+        notEmpty : {
+          msg : 'Email is required'
+        },
+        isEmail : {
+          msg : 'Email is invalid'
+        }
+      }
+    },
+    password: {
+      type : DataTypes.STRING,
+      validate : {
+        notEmpty : {
+          msg : 'Password is required'
+        }
+      }
+    }
   }, {
+    hooks : {
+      beforeCreate(user) {
+        user.password = hashPsw(user.password)
+        console.log(user.password)
+      }
+    },
     sequelize,
     modelName: 'User',
   });

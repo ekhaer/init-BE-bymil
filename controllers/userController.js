@@ -1,3 +1,6 @@
+const { User } = require('../models');
+const { comparePsw } = require('../helper/bcrypt');
+const { generateToken } = require('../helper/jwt');
 class UserController {
     static async getUser (req, res, next) {
         res.send('Get User Page!')
